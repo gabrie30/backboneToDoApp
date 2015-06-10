@@ -1,7 +1,11 @@
-<h1>Here is ToDo <%= todo.get("id") %>:</h1>
+<h3>#<%= todo.get("id") %>: <%= todo.get("title") %></h3>
 
-<p><%= todo.get("title") %></p>
 
+<ul>
+  <% todo.comments().each(function(comment) { %>
+    <li> <%= comment.get("content") %></li>
+  <% }) %>
+</ul>
 
 <br>
 <a href="#/">Index</a>

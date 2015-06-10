@@ -1,7 +1,9 @@
 window.Todo.Collections.Comments = Backbone.Collection.extend({
   model: Todo.Models.Comment,
+
   url: function() {
-    return "/api/todos/" + this.todo.get("id") + "/comments";
+    // return "/api/todos/" + this.todo.get("id") + "/comments";
+    return this.todo.url() + "/comments";
   },
 
   initialize: function(models, options) {

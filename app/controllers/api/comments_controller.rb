@@ -3,7 +3,7 @@ class Api::CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
     if @comment.save()
-      render :json => @comment
+      render "comments/show"
     else
       render :json => @comment.errors, status: :unprocessable_enitity
     end
@@ -11,12 +11,12 @@ class Api::CommentsController < ApplicationController
 
   def show
     @comment = Comment.where(todo_id: params[:todo_id])
-    render :json => @comment
+    render "comments/show"
   end
 
   def index
     @comments = Comment.where(todo_id: params[:todo_id])
-    render :json => @comments
+    render "comments/index"
   end
 
   private
