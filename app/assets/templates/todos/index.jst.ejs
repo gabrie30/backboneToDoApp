@@ -1,0 +1,9 @@
+<h1>Backbone App with Rails API</h1>
+<button id="refresh">Refresh</button>
+<ul>
+  <% todos.each(function (todo) { %>
+    <li><a href="#/todos/<%= todo.get("id") %>"><%= todo.get("title")%></a></li>
+  <% }) %>
+</ul>
+
+<a href="#/todos/new">New Todo</a>

@@ -11,7 +11,13 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.serializejson
 //= require jquery_ujs
 //= require underscore
 //= require backbone
-//= require todo
+//= require todo.js
+//= require_tree ./models
+//= require_tree ./collections
+//= require_tree ../templates
+//= require_tree ./views
+//= require_tree ./routers
