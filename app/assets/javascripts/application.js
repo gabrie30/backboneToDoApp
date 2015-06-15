@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery.serializejson
 //= require jquery_ujs
+//= require marked
 //= require underscore
 //= require backbone
 //= require todo.js

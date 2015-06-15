@@ -11,6 +11,15 @@ window.Todo.Models.Todo = Backbone.Model.extend({
     }
 
     return this._comments;
+  },
+
+  parse: function(jsonResp) {
+    if (jsonResp.comments) {
+      this.comments().set(jsonResp.comments);
+      delete jsonResp.comments;
+    }
+
+    return jsonResp;
   }
 });
 

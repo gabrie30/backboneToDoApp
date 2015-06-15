@@ -1,9 +1,15 @@
-window.Todo.Views.TodosShow = Backbone.View.extend({
+window.Todo.Views.TodosShow = Backbone.CompositeView.extend({
   template: JST["todos/show"],
 
   initialize: function (options) {
     this.listenTo(this.model, "sync", this.render);
-    this.listenTo(this.model.comments(), "sync", this.render);
+    this.listenTo(this.model.comments(), "sync add remove", this.render);
+
+  var commentNewView = new Todo.Views.CommentsNew({
+    todo: this.model
+  });
+
+  this.addSubview(".comment-new", commentNewView);
   },
 
   // events: {
@@ -16,9 +22,30 @@ window.Todo.Views.TodosShow = Backbone.View.extend({
       todo: this.model,
       // comments: this.comments
     });
+
     this.$el.html(data);
+    this.renderSubview();
+
+    // Building more view objects inside render
+    // this.model.comments().each(function (comment) {
+
+    //   var commentsShowView = new Todo.Views.CommentsShow({
+    //     model: comment
+    //   });
+
+    //   this.addSubview(".comments", commentsShowView);
+    //   // this.$(".comments").append(commentsShowView.render().$el);
+    // });
+
+    // dont like rebuilding new view on every render
+    // var commentNewView = new Todo.Views.CommentsNew({
+    //   todo: this.model
+    // });
+
+    // this.addSubview(".comment-new", commentNewView);
+    // this.$(".comment-new").html(commentNewView.render().$el);
     return this;
-  }
+  },
 
 });
 

@@ -19,6 +19,21 @@ class Api::CommentsController < ApplicationController
     render "comments/index"
   end
 
+  def destroy
+    @comment = Comment.find(params[:id])
+    @comment.destroy
+    render "comments/show"
+  end
+
+  def update
+    @comment = Comment.find(params[:id])
+    if @comment.update_attributes(content: params[:content])
+      render "comments/show"
+    else
+      render :json => @comment.errors, status: :unprocessable_enitity;
+    end
+  end
+
   private
 
   def comment_params
