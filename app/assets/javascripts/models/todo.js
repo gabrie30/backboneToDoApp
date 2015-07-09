@@ -5,7 +5,7 @@ window.Todo.Models.Todo = Backbone.Model.extend({
 
     //build this collection once, then reuse it over and over
     if (!this._comments) {
-      this._comments = new Todo.Collections.Comments([], {
+      this._comments = new Todo.Collections.TodoComments([], {
         todo: this
       });
     }

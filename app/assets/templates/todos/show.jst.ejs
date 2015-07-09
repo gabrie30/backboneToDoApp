@@ -1,7 +1,14 @@
 <h3>#<%= todo.get("id") %>: <%= todo.escape("title") %></h3>
 
 <ul class="comments"></ul>
+
 <div class="comment-new"></div>
+
+
+<% todo.comments().each(function(comment) { %>
+  <li><%= comment.get("content") %></li> 
+<% }) %>
+
 <br>
 
 <a href="#/">Index</a>

@@ -1,4 +1,4 @@
-window.Todo.Collections.Comments = Backbone.Collection.extend({
+window.Todo.Collections.TodoComments = Backbone.Collection.extend({
   model: Todo.Models.Comment,
 
   url: function() {
