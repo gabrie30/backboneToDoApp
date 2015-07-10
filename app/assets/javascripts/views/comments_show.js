@@ -1,4 +1,4 @@
-window.Todo.Views.CommentsShow = Backbone.View.extend({
+window.Todo.Views.CommentsShow = Backbone.CompositeView.extend({
   template: function() {
     return this.open ? JST["comments/edit"] : JST["comments/show"];
   },
@@ -14,6 +14,7 @@ window.Todo.Views.CommentsShow = Backbone.View.extend({
   },
 
   beginEditing: function() {
+    alert("STart edidting!!");
     this.open = true;
     this.render();
   },
@@ -23,7 +24,6 @@ window.Todo.Views.CommentsShow = Backbone.View.extend({
 
     var content = this.$("textarea.comment_content").val();
     this.model.save({ content: content });
-
     this.render();
   },
 
@@ -33,6 +33,7 @@ window.Todo.Views.CommentsShow = Backbone.View.extend({
     });
 
     this.$el.html(renderedContent);
+    this.renderSubview();
 
     return this;
   },

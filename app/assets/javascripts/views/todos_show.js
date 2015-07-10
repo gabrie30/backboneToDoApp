@@ -1,15 +1,35 @@
-window.Todo.Views.TodosShow = Backbone.CompositeView.extend({
+ window.Todo.Views.TodosShow = Backbone.CompositeView.extend({
   template: JST["todos/show"],
 
   initialize: function (options) {
     this.listenTo(this.model, "sync", this.render);
-    this.listenTo(this.model.comments(), "sync add remove", this.render);
+    this.listenTo(this.model.comments(), "add", this.addComment);
+    this.listenTo(this.model.comments(), "remove", this.removeComment);
 
   var commentNewView = new Todo.Views.CommentsNew({
     todo: this.model
   });
 
   this.addSubview(".comment-new", commentNewView);
+
+  },
+
+
+  removeComment: function(comment) {
+    var commentsShowView =
+      _(this.subviews()[".comments"]).find(function(subview) {
+        return subview.model == comment;
+      });
+
+    this.removeSubview(".comment", commentsShowView);
+  },
+
+  addComment: function(comment) {
+    var commentShowView = new Todo.Views.CommentsShow({
+      model: comment
+    });
+    this.addSubview(".comments", commentShowView);
+    commentShowView.render();
   },
 
   // events: {
@@ -20,7 +40,7 @@ window.Todo.Views.TodosShow = Backbone.CompositeView.extend({
 
     var data = this.template({
       todo: this.model,
-      // comments: this.comments
+      // comments: this.model.comments()
     });
 
     this.$el.html(data);

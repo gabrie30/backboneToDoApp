@@ -8,7 +8,7 @@ window.Todo.Routers.AppRouter = Backbone.Router.extend({
   todosIndex: function(){
     var indexView = new Todo.Views.TodoIndex({
       collection: Todo.Collections.todos,
-      className: "special-class"
+      // className: "special-class"
     });
 
     Todo.Collections.todos.fetch();

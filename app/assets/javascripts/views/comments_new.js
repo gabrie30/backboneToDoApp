@@ -18,6 +18,7 @@ window.Todo.Views.CommentsNew = Backbone.View.extend({
 
   initialize: function(options) {
     this.todo = options.todo;
+    // this.$el = this.$(".comments");
   },
 
   submit: function(event) {
@@ -32,6 +33,8 @@ window.Todo.Views.CommentsNew = Backbone.View.extend({
     newComment.save({},{
       success: function(){
         view.todo.comments().add(newComment);
+        view.$("textarea").val("");
+        view.renderPreview();
       }
     });
   },
