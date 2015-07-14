@@ -33,6 +33,7 @@ window.Todo.Views.CommentsNew = Backbone.View.extend({
     newComment.save({},{
       success: function(){
         view.todo.comments().add(newComment);
+        // resets the text area to blank space
         view.$("textarea").val("");
         view.renderPreview();
       }

@@ -49,6 +49,17 @@ Backbone.CompositeView = Backbone.View.extend({
     $selectorEl.append(subview.$el);
   },
 
+  remove: function() {
+    Backbone.View.prototype.remove.call(this);
+
+    // removes all subviews
+    _(this.subviews()).each(function(selectorSubviews, selector) {
+      _(selectorSubviews).each(function(subview){
+        subview.remove();
+      });
+    });
+  },
+
   removeSubview: function(selector, subview) {
     var selectorSubviews =
       this.subviews()[selector] || (this.subviews()[selector] = []);
@@ -59,7 +70,7 @@ Backbone.CompositeView = Backbone.View.extend({
   },
 
   renderSubview: function() {
-    // debugger
+    
     var view = this;
     _(this.subviews()).each(function (selectorSubviews, selector) {
       var $selectorEl = view.$(selector);
@@ -67,7 +78,9 @@ Backbone.CompositeView = Backbone.View.extend({
 
       _(selectorSubviews).each(function (subview) {
         $selectorEl.append(subview.render().$el);
+        // this._subviews.add(subview);
         subview.delegateEvents();
+
       });
     });
   },
@@ -78,6 +91,78 @@ Backbone.CompositeView = Backbone.View.extend({
     }
     return this._subviews;
   }
+});
+
+
+// We want to have one subview per row.
+Backbone.TableView = Backbone.CompositeView.extend({
+  rowSubviewClass: null,
+
+  events: {
+    "click th" : "resort"
+  },
+
+  initialize: function() {
+    this.sortFn = null;
+    this.listenTo(this.collection, "add", this.addRowSubview);
+
+    this.collection.each(function(subView){
+      this.addRowSubview(subView);
+    }.bind(this));
+  },
+
+  addRowSubview: function(model) {
+    
+    var rowSubview = new this.rowSubviewClass({
+      model: model
+    });
+
+    this.addSubview("tbody", rowSubview);
+    rowSubview.render();
+  },
+
+  resort: function(event) {
+    // this.sortFn = this._sortColFn(
+    //   $(event.currentTarget).data("col")
+    // ); // this is same as below
+
+    var $currentTarget = $(event.currentTarget);
+    if ($currentTarget.data("sort-col")) {
+      this.sortFn = this._sortColFn($currentTarget.data("sort-col"));
+    } else {
+      // this is going to find the method _lowerTitle
+      this.sortFn = this[$currentTarget.data("sort-fn")];
+    }
+
+    this._sortRowSubviews();
+    this.renderSubview();
+  },
+
+  _sortRowSubviews: function() {
+    var tableView = this;
+
+    var rowSubviews = this.subviews()['tbody'];
+
+    rowSubviews.sort( function( rowView1, rowView2) {
+      var val1 = tableView.sortFn(rowView1.model);
+      var val2 = tableView.sortFn(rowView2.model);
+
+      if (val1 < val2) {
+        return -1;
+      } else if ( val1 == val2 ) {
+        return 0;
+      } else {
+        return 1;
+      }
+    });
+  },
+
+  _sortColFn: function(col) {
+    return function(model) {
+      return model.get(col);
+    };
+  }
+
 });
 
 $( function() {

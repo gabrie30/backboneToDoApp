@@ -6,11 +6,16 @@
     this.listenTo(this.model.comments(), "add", this.addComment);
     this.listenTo(this.model.comments(), "remove", this.removeComment);
 
-  var commentNewView = new Todo.Views.CommentsNew({
-    todo: this.model
-  });
+    var view = this;
+    this.model.comments().each(function(comment){
+      view.addComment(comment);
+    });
 
-  this.addSubview(".comment-new", commentNewView);
+    var commentNewView = new Todo.Views.CommentsNew({
+      todo: this.model
+    });
+
+    this.addSubview(".comment-new", commentNewView);
 
   },
 

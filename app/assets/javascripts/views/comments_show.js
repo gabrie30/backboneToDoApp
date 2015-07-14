@@ -10,6 +10,7 @@ window.Todo.Views.CommentsShow = Backbone.CompositeView.extend({
   },
 
   initialize: function(options) {
+    this.listenTo(this.model, "change", this.render);
     this.open = false;
   },
 
