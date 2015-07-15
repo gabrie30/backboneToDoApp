@@ -49,6 +49,9 @@
     });
 
     this.$el.html(data);
+    this.$(".comments").sortable({
+      "update": function(event, ui) { ui.item.trigger("move");}
+    });
     this.renderSubview();
 
     // Building more view objects inside render

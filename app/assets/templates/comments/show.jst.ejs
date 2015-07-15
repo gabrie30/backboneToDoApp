@@ -1,4 +1,9 @@
-<li>
+<li class="comment">
   <%= marked(comment.escape("content")) %>
+
+  <% if (comment.get("image_url")) { %>
+    <img src="<%= comment.escape('image_url') %>">
+  <% } %>
+
   <button class="destroy">Delete Comment</button>
 </li>

@@ -1,21 +1,28 @@
 window.Todo.Views.CommentsShow = Backbone.CompositeView.extend({
+  attributes: function() {
+    return {
+      "data-id": this.model.get("id")
+    };
+  },
+
   template: function() {
     return this.open ? JST["comments/edit"] : JST["comments/show"];
   },
 
   events: {
     "click button.destroy": "destroy",
-    "dblclick div.content" : "beginEditing",
-    "submit form.comment" : "endEditing"
+    "dblclick li.comment" : "beginEditing",
+    "submit form.comment" : "endEditing",
+    "move": "moveComment"
   },
 
   initialize: function(options) {
     this.listenTo(this.model, "change", this.render);
+
     this.open = false;
   },
 
   beginEditing: function() {
-    alert("STart edidting!!");
     this.open = true;
     this.render();
   },
@@ -26,6 +33,28 @@ window.Todo.Views.CommentsShow = Backbone.CompositeView.extend({
     var content = this.$("textarea.comment_content").val();
     this.model.save({ content: content });
     this.render();
+  },
+
+  moveComment: function() {
+    var todo = Todo.Collections.todos.get(this.model.get("todo_id"));
+
+    var prevId = this.$el.prev().data("id");
+    var nextId = this.$el.next().data("id");
+
+    var prevModel = todo.comments().get(prevId);
+    var nextModel = todo.comments().get(nextId);
+
+    var newOrderNum;
+    if (prevModel == null) {
+      newOrderNum = nextModel.get("order_num") - 1;
+    } else if ( nextModel == null) {
+      newOrderNum = prevModel.get("order_num") + 1;
+    } else {
+      newOrderNum =
+        ((prevModel.get("order_num") + nextModel.get("order_num")) / 2);
+    }
+    this.model.save({ order_num: newOrderNum });
+
   },
 
   render: function () {

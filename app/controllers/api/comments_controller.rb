@@ -27,7 +27,8 @@ class Api::CommentsController < ApplicationController
 
   def update
     @comment = Comment.find(params[:id])
-    if @comment.update_attributes(content: params[:content])
+    # if @comment.update_attributes(content: params[:content])
+    if @comment.update_attributes(comment_params)
       render "comments/show"
     else
       render :json => @comment.errors, status: :unprocessable_enitity;
@@ -37,6 +38,6 @@ class Api::CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:todo_id, :content)
+    params.require(:comment).permit(:todo_id, :image_url, :content, :order_num)
   end
 end

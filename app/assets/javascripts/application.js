@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery.serializejson
+//= require jquery-ui/sortable
 //= require jquery_ujs
 //= require marked
 //= require underscore
