@@ -3,8 +3,11 @@
 
   initialize: function (options) {
     this.listenTo(this.model, "sync", this.render);
+    // this.listenTo(this.model, "sync", this.increaseViewCount);
     this.listenTo(this.model.comments(), "add", this.addComment);
     this.listenTo(this.model.comments(), "remove", this.removeComment);
+
+    this.increaseViewCount();
 
     var view = this;
     this.model.comments().each(function(comment){
@@ -19,6 +22,12 @@
 
   },
 
+  increaseViewCount: function() {
+    var currentTodoCount = this.model.get("todo_view_count");
+    // this.model.set("todo_view_count", currentTodoCount+1);
+    this.model.save({todo_view_count: currentTodoCount+1},{patch: true});
+    // alert(this.model.get("todo_view_count"));
+  },
 
   removeComment: function(comment) {
     var commentsShowView =

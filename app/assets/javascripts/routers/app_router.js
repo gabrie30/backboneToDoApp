@@ -24,7 +24,6 @@ window.Todo.Routers.AppRouter = Backbone.Router.extend({
 
   todosShow: function(id) {
     var model = Todo.Collections.todos.getOrFetch(id);
-    
     // we now do this in the api
     // model.comments().fetch();
 

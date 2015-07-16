@@ -16,6 +16,7 @@ class Api::TodosController < ApplicationController
 
   def update
     @todo = Todo.find(params[:id])
+    
     if @todo.update_attributes(todo_params)
       render "todos/show"
     else
@@ -41,7 +42,7 @@ class Api::TodosController < ApplicationController
   protected
 
   def todo_params
-    params.require(:todo).permit(:title)
+    params.require(:todo).permit(:title, :todo_view_count)
   end
 
 end

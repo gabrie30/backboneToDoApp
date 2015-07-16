@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715152224) do
+ActiveRecord::Schema.define(version: 20150716002322) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "todo_id",    null: false
@@ -25,9 +25,10 @@ ActiveRecord::Schema.define(version: 20150715152224) do
   add_index "comments", ["todo_id"], name: "index_comments_on_todo_id"
 
   create_table "todos", force: :cascade do |t|
-    t.string   "title",      null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "title",                       null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "todo_view_count", default: 0
   end
 
 end

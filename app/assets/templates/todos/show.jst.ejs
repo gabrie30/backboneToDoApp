@@ -1,5 +1,9 @@
 <h3>#<%= todo.get("id") %>: <%= todo.escape("title") %></h3>
 
+<div class="todo_view_count">
+  This todo has been viewed <%= todo.escape("todo_view_count")%> times. Get it done!
+</div>
+
 <ul class="comments"></ul>
 
 <div class="comment-new"></div>

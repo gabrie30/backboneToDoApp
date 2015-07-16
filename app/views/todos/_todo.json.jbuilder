@@ -1,4 +1,4 @@
-json.(todo, :id, :title, :created_at, :updated_at)
+json.(todo, :id, :title, :todo_view_count, :created_at, :updated_at)
 
 comments ||= nil
 
